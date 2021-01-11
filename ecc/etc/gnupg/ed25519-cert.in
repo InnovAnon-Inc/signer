@@ -1,0 +1,12 @@
+%no-ask-passphrase
+%no-protection
+Key-Type: EDDSA
+Key-Curve: ED25519
+Key-Usage: cert
+Name-Real: LFS Default User
+Name-Comment: Free Code for a Free World!
+Name-Email: lfs@example.com
+Expire-Date: 0
+%commit
+%echo done
+

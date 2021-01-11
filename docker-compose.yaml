@@ -1,0 +1,13 @@
+version: '3.3'
+services:
+  signer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+ #     args:
+ #       - CA=rsa
+ #       - SA=rsa
+ #       - EA=rsa
+ #       - AA=rsa
+    image: innovanon/signer
+
