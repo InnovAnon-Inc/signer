@@ -1,4 +1,5 @@
 FROM innovanon/bare as installer
+USER root
 COPY ./stage-0 /tmp/stage-0
 RUN ( cd       /tmp/stage-0 \
  &&   tar cf - . )          \
@@ -14,6 +15,7 @@ RUN ( cd       /tmp/stage-0 \
  && rm -v         /tmp/dpkg.list
 
 FROM installer as builder
+USER root
 COPY ./stage-1 /tmp/stage-1
 RUN ( cd       /tmp/stage-1 \
  &&   tar cf - . )          \
@@ -27,6 +29,7 @@ RUN ( cd       /tmp/stage-1 \
       /home/lfs/.gnupg
 
 FROM builder as test-ecc
+USER root
 COPY ./ecc     /tmp/ecc
 RUN ( cd       /tmp/ecc \
  &&   tar cf - . )      \
@@ -41,6 +44,7 @@ RUN sleep 31 \
  && exec true
 
 FROM builder as test-rsa
+USER root
 COPY ./rsa     /tmp/rsa
 RUN ( cd       /tmp/rsa \
  &&   tar cf - . )      \
@@ -55,6 +59,7 @@ RUN sleep 31 \
  && exec true
 
 FROM builder as final
+USER root
 COPY ./ecc     /tmp/ecc
 COPY ./rsa     /tmp/rsa
 RUN ( cd       /tmp/ecc \
