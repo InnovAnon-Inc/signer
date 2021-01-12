@@ -85,3 +85,6 @@ VOLUME /home/lfs/.gnupg/
 ENTRYPOINT ["/app/entrypoint.sh"]
 CMD        ["cert", "sign", "encrypt", "auth"]
 
+FROM scratch as squash
+COPY --from=final / /
+
