@@ -1,13 +1,13 @@
 FROM innovanon/bare as installer
 USER root
 COPY ./stage-0 /tmp/stage-0
-RUN ( cd       /tmp/stage-0 \
+RUN sleep 91                \
+ && ( cd       /tmp/stage-0 \
  &&   tar cf - . )          \
   | tar xf - -C /           \
  && rm -rf     /tmp/stage-0 \
  && chmod -v 1777 /tmp      \
  \
- && sleep 31 \
  && test -x       /tmp/dpkg.list  \
  && apt      update               \
  && apt full-upgrade              \
