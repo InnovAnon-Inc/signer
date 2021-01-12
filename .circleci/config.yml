@@ -39,11 +39,10 @@ jobs:
       - run:
           name: Build application Docker image
           command: |
-            #docker build \
-            #  --cache-from=lfs-builder \
-            #  -t innovanon/lfs-builder \
-            #  --build-arg TEST=1 .
-            make TEST='--build-arg TEST=1'
+            docker build \
+              --cache-from=signer \
+              -t innovanon/signer \
+              --build-arg TEST=1 .
       #- run:
       #    name: Save Docker image layer cache
       #    command: |
