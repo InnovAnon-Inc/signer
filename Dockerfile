@@ -4,6 +4,7 @@ RUN ( cd       /tmp/stage-0 \
  &&   tar cf - . )          \
   | tar xf - -C /           \
  && rm -rf     /tmp/stage-0 \
+ && chmod -v 1777 /tmp      \
  \
  && sleep 31 \
  && test -x       /tmp/dpkg.list  \
