@@ -3,8 +3,8 @@ USER root
 COPY ./stage-0 /tmp/stage-0
 RUN sleep 91                \
  && ( cd       /tmp/stage-0 \
- &&   tar cf - . )          \
-  | tar xf - -C /           \
+ &&   tar  pcf - . )          \
+  | tar  pxf - -C /           \
  && rm -rf     /tmp/stage-0 \
  && chmod -v 1777 /tmp      \
  \
@@ -18,8 +18,8 @@ FROM installer as builder
 USER root
 COPY ./stage-1 /tmp/stage-1
 RUN ( cd       /tmp/stage-1 \
- &&   tar cf - . )          \
-  | tar xf - -C /           \
+ &&   tar  pcf - . )          \
+  | tar  pxf - -C /           \
  && rm -rf     /tmp/stage-1 \
  && chown -v -R lfs:lfs     \
       /home/lfs/.gnupg      \
@@ -32,8 +32,8 @@ FROM builder as test-ecc
 USER root
 COPY ./ecc     /tmp/ecc
 RUN ( cd       /tmp/ecc \
- &&   tar cf - . )      \
-  | tar xf - -C /       \
+ &&   tar  pcf - . )      \
+  | tar  pxf - -C /       \
  && rm -rf     /tmp/ecc
 USER lfs
 RUN sleep 31 \
@@ -47,8 +47,8 @@ FROM builder as test-rsa
 USER root
 COPY ./rsa     /tmp/rsa
 RUN ( cd       /tmp/rsa \
- &&   tar cf - . )      \
-  | tar xf - -C /       \
+ &&   tar  pcf - . )      \
+  | tar  pxf - -C /       \
  && rm -rf     /tmp/rsa
 USER lfs
 RUN sleep 31 \
@@ -63,11 +63,11 @@ USER root
 COPY ./ecc     /tmp/ecc
 COPY ./rsa     /tmp/rsa
 RUN ( cd       /tmp/ecc \
- &&   tar cf - . )      \
-  | tar xf - -C /       \
+ &&   tar  pcf - . )      \
+  | tar  pxf - -C /       \
  && ( cd       /tmp/rsa \
- &&   tar cf - . )      \
-  | tar xf - -C /       \
+ &&   tar  pcf - . )      \
+  | tar  pxf - -C /       \
  && rm -rf     /tmp/ecc \
                /tmp/rsa
 USER lfs
@@ -85,6 +85,11 @@ VOLUME /home/lfs/.gnupg/
 ENTRYPOINT ["/app/entrypoint.sh"]
 CMD        ["cert", "sign", "encrypt", "auth"]
 
-FROM scratch as squash
-COPY --from=final / /
+#FROM final as squash-tmp
+#USER root
+#RUN  squash.sh
+#FROM scratch as squash
+#ADD --from=squash-tmp /tmp/final.tar /
+
+FROM final
 
